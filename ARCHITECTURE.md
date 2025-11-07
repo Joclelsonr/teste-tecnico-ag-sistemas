@@ -29,10 +29,10 @@ flowchart LR
   end
 
   subgraph CDN
-    CDN[CDN (assets)]
+    CDNNode[CDN (assets)]
   end
 
-  CDN --> Browser
+  CDNNode --> Browser
   Browser -->|HTTPS| API[API Gateway / Backend (NestJS)]
   API --> Auth[Auth Service (JWT / NextAuth)]
   API --> DB[(Postgres)]
