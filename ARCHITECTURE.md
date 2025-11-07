@@ -24,36 +24,17 @@ Plataforma para gerenciar membros, reuniões e gerar/reportar indicações de ne
 
 ```mermaid
 flowchart LR
-  subgraph CLIENT
-    Browser["Next.js (SSR/SSG) / SPA"]
-  end
+    subgraph CLIENT
+        Browser["Next.js (SSR/SSG) / SPA"]
+    end
 
-  subgraph CDN
-    CDNNode[CDN (assets)]
-  end
+    Browser --> |HTTPS| API["Backend API (NestJS)"]
+    API --> DB[(Postgres)]
+    API --> Redis["(Redis) - cache"]
+    API --> Storage["S3 (file uploads)"]
+    API --> Payments["Payments Gateway"]
 
-  CDNNode --> Browser
-  Browser -->|HTTPS| API[API Gateway / Backend (NestJS)]
-  API --> Auth[Auth Service (JWT / NextAuth)]
-  API --> DB[(Postgres)]
-  API --> Redis[(Redis) - cache]
-  API --> Storage[S3 (file uploads)]
-  API --> Payments[Payments Gateway]
-  API --> Mail[Mail Service]
-
-  subgraph WORKERS
-    WorkerJobs[Background Workers (BullMQ/Sidekiq-like)]
-  end
-
-  Redis --> WorkerJobs
-  WorkerJobs --> Mail
-  WorkerJobs --> DB
-
-  AdminUI[Admin Panel (Next.js - /admin)] --> API
-
-  note right of DB
-    Optionally: read-replica for scaling reads
-  end
+    AdminUI["Admin Panel (Next.js - /admin)"] --> |HTTPS| API
 ```
 
 > Diagrama simples em Mermaid.
