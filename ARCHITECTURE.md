@@ -25,7 +25,7 @@ Plataforma para gerenciar membros, reuniões e gerar/reportar indicações de ne
 ```mermaid
 flowchart LR
   subgraph CLIENT
-    Browser[Next.js (SSR/SSG) / SPA]
+    Browser["Next.js (SSR/SSG) / SPA"]
   end
 
   subgraph CDN
@@ -33,10 +33,10 @@ flowchart LR
   end
 
   CDN --> Browser
-  Browser -->|HTTPS| API[API Gateway / Backend (NestJS/Express)]
+  Browser -->|HTTPS| API[API Gateway / Backend (NestJS)]
   API --> Auth[Auth Service (JWT / NextAuth)]
   API --> DB[(Postgres)]
-  API --> Redis[(Redis) - cache, locks, queues]
+  API --> Redis[(Redis) - cache]
   API --> Storage[S3 (file uploads)]
   API --> Payments[Payments Gateway]
   API --> Mail[Mail Service]
